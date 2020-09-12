@@ -1,5 +1,6 @@
 $(function() {
     getUserInfo()
+    window.getUserInfo = getUserInfo
 
     // 获取用户的基本信息
     function getUserInfo() {
@@ -20,13 +21,11 @@ $(function() {
             //         localStorage.removeItem('token')
             //         location.href = '/login.html'
             //     }
-
-
             // }
         })
 
         function renderAvatar(user) {
-            console.log(user);
+            // console.log(user);
             var name = user.username || user.nickname
             $('#welcome').html('欢迎&nbsp;&nbsp;' + name)
             if (user.user_pic !== null) {
