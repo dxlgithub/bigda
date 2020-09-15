@@ -1,6 +1,7 @@
 $(function() {
     layer = layui.layer
     form = layui.form
+    laypage = layui.laypage
         // 定义美化时间的过滤器
     template.defaults.imports.dataFormat = function(date) {
         const dt = new Date(date)
@@ -42,6 +43,8 @@ $(function() {
                 layer.msg('获取文章列表成功')
                 var htmlStr = template('tpl-table', res)
                 $('tbody').html(htmlStr)
+
+                renderPage(res.total)
             }
         })
     }
@@ -74,4 +77,24 @@ $(function() {
         q.state = state
         initTable()
     })
+
+    function renderPage(total) {
+        console.log(total);
+        laypage.render({
+            elem: 'pageBox',
+            count: total,
+            limit: 1,
+            curr: q.pagenum,
+            layout: ['count', 'limit', 'prv', 'page', 'next', 'skip'],
+            limits: [1, 2, 3],
+            jump: function(obj, first) {
+                q.pagenum = obj.curr
+                q.pagesize = obj.limit
+                    // console.log(q.pagenum);
+                if (!first) {
+                    initTable()
+                }
+            }
+        })
+    }
 })
