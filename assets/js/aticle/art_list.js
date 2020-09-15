@@ -97,4 +97,25 @@ $(function() {
             }
         })
     }
+    $('tbody').on('click', '.btn-delete', function() {
+        var id = $(this).attr('data-id')
+        var len = $('.btn-delete').length
+        layer.confirm('是否删除文章?', { icon: 3, title: '提示' }, function(index) {
+            $.ajax({
+                method: 'GET',
+                url: '/my/article/delete/' + id,
+                success: function(res) {
+                    if (res.status !== 0) {
+                        return layer.msg('删除文章失败！')
+                    }
+                    layer.msg('删除文章成功')
+                    if (len === 1) {
+                        q.pagenum = q.pagenum === 1 ? 1 : q.pagenum - 1
+                    }
+                    initTable()
+                }
+            })
+            layer.close(index);
+        });
+    })
 })
